@@ -1,6 +1,7 @@
 package dev.collegues.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,5 +21,7 @@ public interface CollegueRepository extends JpaRepository<Collegue, Integer> {
 	@Modifying
 	@Query("UPDATE Collegue c SET c.photoUrl = :newPhotoUrl WHERE c.photoUrl = :oldPhotoUrl")
 	void changerPhotoUrl(@Param("oldPhotoUrl") String oldPhotoUrl, @Param("newPhotoUrl") String newPhotoUrl);
+
+	Optional<Collegue> findByMatricule(String matricule);
 
 }
