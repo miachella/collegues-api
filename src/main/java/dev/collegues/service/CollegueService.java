@@ -27,6 +27,14 @@ public class CollegueService {
 		return collegueRepository.findByNom(nom);
 	}
 
+	public Optional<Collegue> recupererCollegueParEmail(String email) {
+		return collegueRepository.findByEmail(email);
+	}
+
+	public Optional<Collegue> recupererCollegueParPhotoUrl(String photoUrl) {
+		return collegueRepository.findByPhotoUrl(photoUrl);
+	}
+
 	public Optional<Collegue> recupererCollegueParMatricule(String matricule) {
 		return collegueRepository.findByMatricule(matricule);
 	}
@@ -36,14 +44,31 @@ public class CollegueService {
 		Collegue collegue = new Collegue();
 		collegue.setNom(collegueRequestDto.getNom());
 		collegue.setPrenoms(collegueRequestDto.getPrenoms());
+		collegue.setEmail(collegueRequestDto.getEmail());
 		collegue.setDateDeNaissance(collegueRequestDto.getDateDeNaissance());
 		collegue.setPhotoUrl(collegueRequestDto.getPhotoUrl());
 
 		// logique métier (génération du matricule)
-		collegue.setMatricule("Matricule" + Math.floor(Math.random() * 100));
+		collegue.setMatricule("Matricule" + (int) Math.floor(Math.random() * 100));
 
-		return this.collegueRepository.save(collegue);
+		return collegueRepository.save(collegue);
 
+	}
+
+	public Collegue modifierCollegueEmail(String oldEmail, String newEmail) {
+		Optional<Collegue> collegueAModifier = recupererCollegueParEmail(oldEmail);
+		if (collegueAModifier.isPresent()) {
+			collegueAModifier.get().setEmail(newEmail);
+		}
+		return collegueRepository.save(collegueAModifier.get());
+	}
+
+	public Collegue modifierColleguePhotoUrl(String oldPhotoUrl, String newPhotoUrl) {
+		Optional<Collegue> collegueAModifier = recupererCollegueParEmail(oldPhotoUrl);
+		if (collegueAModifier.isPresent()) {
+			collegueAModifier.get().setEmail(newPhotoUrl);
+		}
+		return collegueRepository.save(collegueAModifier.get());
 	}
 
 }

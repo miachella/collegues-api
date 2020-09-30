@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.collegues.entite.Collegue;
 import dev.collegues.service.CollegueService;
 
+@Transactional
 @CrossOrigin
 @RestController
 @RequestMapping("collegues")
@@ -32,8 +35,13 @@ public class CollegueController {
 	}
 
 	@GetMapping
-	public List<Collegue> getAllCollegue() {
-		return collegueService.listerCollegues();
+	public List<CollegueGalerieDto> getAllCollegue() {
+		List<CollegueGalerieDto> ListCollegues = new ArrayList<>();
+		List<Collegue> list = collegueService.listerCollegues();
+		for (Collegue c : list) {
+			ListCollegues.add(new CollegueGalerieDto(c.getMatricule(), c.getPhotoUrl()));
+		}
+		return ListCollegues;
 	}
 
 	@GetMapping(params = { "nom" })
@@ -70,12 +78,6 @@ public class CollegueController {
 
 	@PutMapping(params = { "oldEmail", "newEmail" })
 	public ResponseEntity<?> setCollegueByEmail(@RequestParam String oldEmail, @RequestParam String newEmail) {
-		return null;
-
-	}
-
-	@PutMapping(params = { "oldPhotoUrl", "newPhotoUrl" })
-	public ResponseEntity<?> setCollegueByPhotoUrl(@RequestParam String oldPhotoUrl, @RequestParam String newPhotoUrl) {
 		return null;
 
 	}

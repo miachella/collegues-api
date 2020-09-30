@@ -24,4 +24,8 @@ public interface CollegueRepository extends JpaRepository<Collegue, Integer> {
 
 	Optional<Collegue> findByMatricule(String matricule);
 
+	Optional<Collegue> findByEmail(String email);
+
+	Optional<Collegue> findByPhotoUrl(String photoUrl);
+
 }
